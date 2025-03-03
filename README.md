@@ -8,5 +8,5 @@ A little about me:
 - I am taking STATS 220 because of my degree requirements 
 - I am interested in learning about visual representation of R code 
 
-A meme that captures how I currently feel about my university studies is ![]([https://c.tenor.com/8druEACXtX8AAAAd/tenor.gif](https://www.reddit.com/r/sadcats/comments/ct1esv/studying_inside/#lightbox))
+A meme that captures how I currently feel about my university studies is ![](https://c.tenor.com/8druEACXtX8AAAAd/tenor.gif)
 
