@@ -10,4 +10,3 @@ A little about me:
 
 A meme that captures how I currently feel about my university studies is ![](https://c.tenor.com/8druEACXtX8AAAAd/tenor.gif)
 
-https://www.instagram.com/animals_101qa/p/DE58GCPSUrW/
