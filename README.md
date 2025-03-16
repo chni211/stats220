@@ -10,8 +10,6 @@
 3. I am interested in learning about visual representation of R code
 
 <!--- unordered lists --->
-* A meme that captures how I currently feel about my university studies is ![](https://c.tenor.com/8druEACXtX8AAAAd/tenor.gif)
+* A meme that captures how I currently feel about my university studies is ![brainfog](https://tenor.com/en-GB/view/i-dont-wanna-study-anymore-study-i-dont-wanna-crying-tantrums-gif-17256391) 
 
-![brainfog] (https://tenor.com/en-GB/view/i-dont-wanna-study-anymore-study-i-dont-wanna-crying-tantrums-gif-17256391) 
-
-[Instagram] (https://Instagram.com)
+[Instagram](https://Instagram.com)
