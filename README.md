@@ -12,4 +12,4 @@
 <!--- unordered lists --->
 * A meme that captures how I currently feel about my university studies is ![Brainfog](https://media1.tenor.com/m/5SmUHhhA6xEAAAAC/i-dont-wanna-study-anymore-study.gif) 
 
-[Instagram](https://Instagram.com)
+In my free time I love going on [Instagram](https://Instagram.com)
