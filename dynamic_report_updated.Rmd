@@ -1,0 +1,84 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+## Analyzing Commute Duration and Satisfaction: Impact of Traffic and Weather
+
+This report explores how traffic and weather conditions influence commute duration and commute satisfaction, based on data collected through a Google Form survey. The analysis includes bar charts and summary values, with dynamic comments calculated from the data.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+library(tidyverse)
+
+# Read and prepare data
+daily_commute_responses <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyT9UZWzU53c1qSzB3qSp6XXQyBvq2GfVeahaK3xWSXtT4drOncOVEvOUK_DJ3v-ax9ZHcD4nRbM2z/pub?gid=19179063&single=true&output=csv"
+logged_data <- read_csv(daily_commute_responses)
+
+latest_data <- logged_data %>%
+  rename(timestamp = 1, 
+         transport_mode = 2,  
+         weather = 3, 
+         commute_rating = 4, 
+         traffic = 5, 
+         reason = 6, 
+         commute_duration = 7)
+```
+
+```{css}
+body {
+  background-color: seashell; 
+  border-style: double;
+  border-color: maroon;
+  border-width: 15px;
+}
+```
+
+### Commute Duration by Traffic
+
+This chart compares commute durations based on whether there was traffic or not. It helps us see how traffic may influence time spent commuting.
+
+```{r}
+# Summary values
+traffic_summary <- latest_data %>%
+  group_by(traffic) %>%
+  summarise(mean_duration = mean(commute_duration, na.rm = TRUE))
+
+latest_data %>%
+  ggplot() +
+  geom_bar(aes(y = traffic, fill = commute_duration)) +
+  labs(title = "Does Commute Duration Depend on Traffic?",
+       subtitle = "Comparing commute duration with Traffic",
+       caption = "Source: Commute survey data",
+       y = "Traffic (Yes/No)",
+       x = "Commute duration")
+```
+
+**Dynamic comment:**  
+When there was traffic, the average commute duration was **`r round(filter(traffic_summary, traffic == "Yes")$mean_duration, 1)` minutes**.
+
+---
+
+### Commute Rating by Weather
+
+This chart shows how people rated their commutes under different weather conditions. It explores how weather affects satisfaction.
+
+```{r}
+# Summary values
+weather_summary <- latest_data %>%
+  group_by(weather) %>%
+  summarise(mean_rating = mean(commute_rating, na.rm = TRUE))
+
+latest_data %>%
+  ggplot() +
+  geom_bar(aes(x = weather, fill = commute_rating)) +
+  labs(title = "Does Commute Rating Depend on Weather?",
+       subtitle = "Comparing commute rating with Weather",
+       caption = "Source: Commute survey data",
+       x = "Weather",
+       y = "Commute rating")
+```
+
+**Dynamic comment:**  
+In sunny weather, the average commute rating was **`r round(filter(weather_summary, weather == "Sunny")$mean_rating, 1)`**.
+
