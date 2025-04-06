@@ -3,11 +3,6 @@ title: My dynamic report
 output: html_fragment
 ---
 
-## Analyzing commute duration and satisfaction: Impact of traffic and weather
-
-This dynamic report explores daily commuting patterns of mine collected through a Google Form. It investigates how traffic conditions and weather affect both the duration and satisfaction of my commutes.
-
-The report includes summary statistics and bar charts generated in R, with values dynamically calculated based on the live data. The visualization provide insights into whether external conditions such as traffic or weather influence how I experienced my commutes.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
@@ -28,7 +23,6 @@ latest_data <- logged_data %>%
 ```
 
 ```{css}
-
 body {background-color: seashell; 
      border-style: double;
      border-color: maroon ;
@@ -77,6 +71,11 @@ h4:hover {transform: scale(1.2);
     box-shadow: 5px 5px 5px 5px purple;}
 
 ```
+## Analyzing commute duration and satisfaction: Impact of traffic and weather
+
+This dynamic report explores daily commuting patterns of mine collected through a Google Form. It investigates how traffic conditions and weather affect both the duration and satisfaction of my commutes.
+
+The report includes summary statistics and bar charts generated in R, with values dynamically calculated based on the live data. The visualization provide insights into whether external conditions such as traffic or weather influence how I experienced my commutes.
 
 ### Commute duration and Traffic
 
