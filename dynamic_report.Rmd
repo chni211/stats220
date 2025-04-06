@@ -3,7 +3,6 @@ title: My dynamic report
 output: html_fragment
 ---
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
 library(tidyverse)
@@ -23,6 +22,7 @@ latest_data <- logged_data %>%
 ```
 
 ```{css}
+
 body {background-color: seashell; 
      border-style: double;
      border-color: maroon ;
@@ -71,13 +71,14 @@ h4:hover {transform: scale(1.2);
     box-shadow: 5px 5px 5px 5px purple;}
 
 ```
+
 ## Analyzing commute duration and satisfaction: Impact of traffic and weather
 
 This dynamic report explores daily commuting patterns of mine collected through a Google Form. It investigates how traffic conditions and weather affect both the duration and satisfaction of my commutes.
 
 The report includes summary statistics and bar charts generated in R, with values dynamically calculated based on the live data. The visualization provide insights into whether external conditions such as traffic or weather influence how I experienced my commutes.
 
-### Commute duration and Traffic
+## Commute duration and Traffic
 
 This chart compares commute duration based on traffic presence. I examine whether traffic is associated with longer commute times.
 
@@ -118,7 +119,7 @@ cat(paste(strwrap(comment1, width = 140), collapse ="\n"))
 
 This bar chart compares how many commutes were logged with or without traffic. Commute duration is used as the fill color, which groups bars by duration levels. However, the height of bars reflects count of logs, not average commute time. Observation: More commutes with traffic tend to have longer duration logged.
 
-### Commute rating and Weather
+## Commute rating and Weather
 
 This chart explores whether commute satisfaction (rating) varies depending on the weather conditions.
 
