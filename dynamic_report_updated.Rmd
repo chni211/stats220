@@ -3,18 +3,19 @@ title: My dynamic report
 output: html_fragment
 ---
 
-## Analyzing Commute Duration and Satisfaction: Impact of Traffic and Weather
+## Analyzing commute duration and satisfaction: Impact of traffic and weather
 
-This report explores how traffic and weather conditions influence commute duration and commute satisfaction, based on data collected through a Google Form survey. The analysis includes bar charts and summary values, with dynamic comments calculated from the data.
+This dynamic report explores daily commuting patterns of mine collected through a Google Form. It investigates how traffic conditions and weather affect both the duration and satisfaction of my commutes.
+
+The report includes summary statistics and bar charts generated in R, with values dynamically calculated based on the live data. The visualization provide insights into whether external conditions such as traffic or weather influence how I experienced my commutes.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
 library(tidyverse)
 
-# Read and prepare data
 daily_commute_responses <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyT9UZWzU53c1qSzB3qSp6XXQyBvq2GfVeahaK3xWSXtT4drOncOVEvOUK_DJ3v-ax9ZHcD4nRbM2z/pub?gid=19179063&single=true&output=csv"
 logged_data <- read_csv(daily_commute_responses)
-
+  
 latest_data <- logged_data %>%
   rename(timestamp = 1, 
          transport_mode = 2,  
@@ -23,62 +24,137 @@ latest_data <- logged_data %>%
          traffic = 5, 
          reason = 6, 
          commute_duration = 7)
+
 ```
 
 ```{css}
-body {
-  background-color: seashell; 
-  border-style: double;
-  border-color: maroon;
-  border-width: 15px;
-}
+
+body {background-color: seashell; 
+     border-style: double;
+     border-color: maroon ;
+     border-width: 15px}
+     
+h1 {background-color: seashell;
+    font-family: "Cursive";
+    text-align: center;
+    font-style: italic;
+    border-style: double;
+    border-color: maroon;
+    border-width: 7px;}
+
+h2 {background-color: seashell;
+   font-family: "Cursive";
+   text-align: center;
+   border-style: double;
+   border-color: maroon;
+   border-width: 7px}
+
+h3 {background-color: seashell;
+   font-family: "Cursive";
+   text-align: center;
+   border-style: double;
+   border-color: maroon;
+   border-width: 7px}
+
+h4 {background-color: seashell;
+   font-family: "Cursive";
+   text-align: center;
+   border-style: double;
+   border-color: maroon;
+   border-width: 7px}
+   
+h1:hover {transform: scale(1.2);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 5px 5px 5px 5px purple;}
+h2:hover {transform: scale(1.2);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 5px 5px 5px 5px purple;}
+h3:hover {transform: scale(1.2);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 5px 5px 5px 5px purple;}
+h4:hover {transform: scale(1.2);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 5px 5px 5px 5px purple;}
+
 ```
 
-### Commute Duration by Traffic
+### Commute duration and Traffic
 
-This chart compares commute durations based on whether there was traffic or not. It helps us see how traffic may influence time spent commuting.
+This chart compares commute duration based on traffic presence. I examine whether traffic is associated with longer commute times.
 
-```{r}
-# Summary values
-traffic_summary <- latest_data %>%
+```{r, echo=FALSE}
+
+latest_data %>%
+  group_by(traffic) %>%
+  summarise(min_duration = min(commute_duration, na.rm = TRUE),
+            max_duration = max(commute_duration, na.rm = TRUE))
+
+latest_data %>%
+  group_by(traffic) %>%
+  summarise(mean_rating = mean(commute_duration, na.rm = TRUE))
+
+
+#Summary table for dynamic comment
+mean_duration_by_traffic <- latest_data %>%
   group_by(traffic) %>%
   summarise(mean_duration = mean(commute_duration, na.rm = TRUE))
 
+
+#Bar graph 1
 latest_data %>%
   ggplot() +
   geom_bar(aes(y = traffic, fill = commute_duration)) +
-  labs(title = "Does Commute Duration Depend on Traffic?",
-       subtitle = "Comparing commute duration with Traffic",
-       caption = "Source: Commute survey data",
+  labs(title = "Does Commute duration depend on Traffic?",
+       subtitle = "Comparing Commute duration with Traffic",
+       caption = "Transport mode",
        y = "Traffic (Yes/No)",
        x = "Commute duration")
+
+
+#Dynamic comment for Bar graph 1
+comment1 <- paste("When there was traffic, the average commute duration was", round (mean_duration_by_traffic$mean_duration[mean_duration_by_traffic$traffic == "Yes"], 1),"minutes. Without traffic, it was", round(mean_duration_by_traffic$mean_duration[mean_duration_by_traffic$traffic == "No"], 1)," minutes.")
+
+cat(paste(strwrap(comment1, width = 140), collapse ="\n"))
 ```
 
-**Dynamic comment:**  
-When there was traffic, the average commute duration was **`r round(filter(traffic_summary, traffic == "Yes")$mean_duration, 1)` minutes**.
+This bar chart compares how many commutes were logged with or without traffic. Commute duration is used as the fill color, which groups bars by duration levels. However, the height of bars reflects count of logs, not average commute time. Observation: More commutes with traffic tend to have longer duration logged.
 
----
+### Commute rating and Weather
 
-### Commute Rating by Weather
+This chart explores whether commute satisfaction (rating) varies depending on the weather conditions.
 
-This chart shows how people rated their commutes under different weather conditions. It explores how weather affects satisfaction.
+```{r, echo=FALSE}
 
-```{r}
-# Summary values
-weather_summary <- latest_data %>%
+latest_data %>%
+  group_by(weather) %>%
+  summarise(min_duration = min(commute_rating, na.rm = TRUE),
+            max_duration = max(commute_rating, na.rm = TRUE))
+
+mean_rating_by_weather <- latest_data %>%
   group_by(weather) %>%
   summarise(mean_rating = mean(commute_rating, na.rm = TRUE))
 
+mean_rating_by_weather
+
+overcast_rating <- mean(
+  mean_rating_by_weather$mean_rating[
+    mean_rating_by_weather$weather %in% c("Cloudy/foggy", "Windy/cold")])
+
+#Bar graph 2
 latest_data %>%
   ggplot() +
   geom_bar(aes(x = weather, fill = commute_rating)) +
-  labs(title = "Does Commute Rating Depend on Weather?",
+  labs(title = "Does Commute rating depend on Weather?",
        subtitle = "Comparing commute rating with Weather",
-       caption = "Source: Commute survey data",
+       caption = "Transport mode",
        x = "Weather",
-       y = "Commute rating")
+       y = "Commute rating")  
+
+
+#Dynamic comment for Bar graph 2
+comment2 <- paste("The average commute rating on sunny days was", round(mean_rating_by_weather$mean_rating [mean_rating_by_weather$weather == "Sunny"], 1), "On overcast days with either winds or cold weather, it was", round(overcast_rating, 1))
+
+cat(paste(strwrap(comment2, width = 140), collapse ="\n"))
 ```
 
-**Dynamic comment:**  
-In sunny weather, the average commute rating was **`r round(filter(weather_summary, weather == "Sunny")$mean_rating, 1)`**.
-
+This bar chart shows how certain weather conditions affect commute ratings. Commute rating is used as the fill (not affecting bar height). Observation: Sunny weather had the highest number of positive commute ratings, suggesting that good weather might improve the overall commute experience.
